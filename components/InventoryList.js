@@ -32,30 +32,31 @@ const InventoryList = ({ inventory }) => {
           </tr>
         </thead>
         <tbody className="divide-y-2 divide-black">
-          {inventory.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.item_name}</td>
-              <td>${item.item_price.toFixed(2)}</td>
-              <td>{item.quantity}</td>
-              <td>
-                <button
-                  onClick={() => updateItem(item)}
-                  className="bg-orange-400 md:w-3/4 h-8 text-white w-full"
-                >
-                  {"UPDATE"}
-                </button>
-              </td>
-              <td className="">
-                <button
-                  onClick={() => deleteItem(item.id)}
-                  className="bg-red-600 md:w-3/4 text-white w-full text-2xl "
-                >
-                  X
-                </button>
-              </td>
-            </tr>
-          ))}
+          {inventory.length &&
+            inventory.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.item_name}</td>
+                <td>${item.item_price.toFixed(2)}</td>
+                <td>{item.quantity}</td>
+                <td>
+                  <button
+                    onClick={() => updateItem(item)}
+                    className="bg-orange-400 md:w-3/4 h-8 text-white w-full"
+                  >
+                    {"UPDATE"}
+                  </button>
+                </td>
+                <td className="">
+                  <button
+                    onClick={() => deleteItem(item.id)}
+                    className="bg-red-600 md:w-3/4 text-white w-full text-2xl "
+                  >
+                    X
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       <div className="w-1/4">

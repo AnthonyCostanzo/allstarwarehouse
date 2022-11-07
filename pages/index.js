@@ -5,7 +5,7 @@ import InventoryList from "../components/InventoryList";
 export default function Home({ inventory, users }) {
   return (
     <>
-      <div className="text-center md:w-10/12 m-auto ">
+      <div className="text-center md:w-10/12 m-auto pb-20 ">
         <div className="group w-fit m-auto">
           <h1 className="text-2xl text-center mt-10 group-hover:animate-bounce  ">
             THE WAREHOUSE MANAGER
