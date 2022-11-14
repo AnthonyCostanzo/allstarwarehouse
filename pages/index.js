@@ -2,7 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import UserList from "../components/UserList";
 import InventoryList from "../components/InventoryList";
-export default function Home({ inventory, users }) {
+import { useEffect, useState } from "react";
+export default function Home() {
   return (
     <>
       <div className="text-center md:w-10/12 m-auto pb-20 ">
@@ -19,25 +20,11 @@ export default function Home({ inventory, users }) {
           </div>
           <div className="mt-10">
             <h1 className="mb-5 font-semibold text-xl">ACTIVE USERS</h1>
-            <UserList users={users} />
+            {/* <UserList /> */}
           </div>
-          <InventoryList inventory={inventory} />
+          <InventoryList />
         </div>
       </div>
     </>
   );
 }
-
-export const getServerSideProps = async () => {
-  const itemRes = await fetch("http://localhost:8080/items/allItems");
-  const items = await itemRes.json();
-
-  const userRes = await fetch("http://localhost:8080/user/allUsers");
-  const users = await userRes.json();
-  return {
-    props: {
-      inventory: items,
-      users,
-    },
-  };
-};

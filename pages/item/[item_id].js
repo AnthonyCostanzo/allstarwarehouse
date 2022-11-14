@@ -1,13 +1,10 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const UpdateItem = ({ query }) => {
+const UpdateItem = ({ item }) => {
   const router = useRouter();
-  const { item_id } = query;
-  let item = JSON.parse(query.item);
-
-  const [name, setName] = useState(item.item_name);
-  const [price, setPrice] = useState(item.item_price);
+  const [name, setName] = useState(item.name);
+  const [price, setPrice] = useState(item.price);
   const [quantity, setQuantity] = useState(item.quantity);
 
   const onNameChangeHandler = (e) => {
@@ -23,14 +20,14 @@ const UpdateItem = ({ query }) => {
 
   const onFormSubmit = async (event) => {
     event.preventDefault();
-    const item = { item_name: name, item_price: price, quantity };
+    const updatedItem = { name, price, quantity };
     try {
-      const res = await fetch(`http://localhost:8080/items/update/${item_id}`, {
+      const res = await fetch(`http://localhost:8080/products/${item.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ item_id, ...item }),
+        body: JSON.stringify(updatedItem),
       });
       router.push("/");
     } catch (err) {
@@ -91,8 +88,11 @@ const UpdateItem = ({ query }) => {
 
 export const getServerSideProps = async (context) => {
   {
-    const { query } = context;
-    return { props: { query } };
+    let {
+      query: { item },
+    } = context;
+    item = JSON.parse(item);
+    return { props: { item } };
   }
 };
 

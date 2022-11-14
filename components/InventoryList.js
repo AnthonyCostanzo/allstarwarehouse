@@ -1,13 +1,32 @@
 import Link from "next/Link";
 import { useRouter } from "next/router";
-
-const InventoryList = ({ inventory }) => {
+import { useEffect, useState } from "react";
+const InventoryList = () => {
   const router = useRouter();
+  const [inventory, setInventory] = useState([]);
+
+  useEffect(() => {
+    const loadInventory = async () => {
+      try {
+        const itemRes = await fetch("http://localhost:8080/products/all");
+        const itemData = await itemRes.json();
+        setInventory(itemData);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    loadInventory();
+  }, []);
+
   const deleteItem = async (id) => {
-    await fetch(`http://localhost:8080/items/delete/${id}`, {
-      method: "DELETE",
-    });
-    router.replace("/");
+    try {
+      await fetch(`http://localhost:8080/products/delete/${id}`, {
+        method: "DELETE",
+      });
+      router.reload(window.location.pathname);
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const updateItem = async (item) => {
@@ -20,8 +39,8 @@ const InventoryList = ({ inventory }) => {
   return (
     <div className="md:w-3/4 m-auto mt-10">
       <h1 className="mb-5 font-semibold text-xl">Current Inventory</h1>
-      <table className="w-11/12 font-semibold h-48 m-5 md:w-11/12 md:m-auto min-h-max">
-        <thead>
+      <table className="w-10/12 m-auto font-semibold md:w-full min-h-[10rem]">
+        <thead className="">
           <tr>
             <th>ID</th>
             <th>NAME</th>
@@ -32,35 +51,36 @@ const InventoryList = ({ inventory }) => {
           </tr>
         </thead>
         <tbody className="divide-y-2 divide-black">
-          {inventory.length &&
-            inventory.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.item_name}</td>
-                <td>${item.item_price.toFixed(2)}</td>
-                <td>{item.quantity}</td>
-                <td>
-                  <button
-                    onClick={() => updateItem(item)}
-                    className="bg-orange-400 md:w-3/4 h-8 text-white w-full"
-                  >
-                    {"UPDATE"}
-                  </button>
-                </td>
-                <td className="">
-                  <button
-                    onClick={() => deleteItem(item.id)}
-                    className="bg-red-600 md:w-3/4 text-white w-full text-2xl "
-                  >
-                    X
-                  </button>
-                </td>
-              </tr>
-            ))}
+          {inventory.length
+            ? inventory.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>${item.price.toFixed(2)}</td>
+                  <td>{item.quantity}</td>
+                  <td>
+                    <button
+                      onClick={() => updateItem(item)}
+                      className="bg-orange-400 md:w-3/4 h-8 text-white w-full"
+                    >
+                      {"UPDATE"}
+                    </button>
+                  </td>
+                  <td className="">
+                    <button
+                      onClick={() => deleteItem(item.id)}
+                      className="bg-red-600 md:w-3/4 text-white w-full text-2xl "
+                    >
+                      X
+                    </button>
+                  </td>
+                </tr>
+              ))
+            : null}
         </tbody>
       </table>
-      <div className="w-1/4">
-        <button className="ml-4 p-1 bg-green-500 md:ml-0 md:p-2 rounded-md text-white">
+      <div className="mt-4 text-left ml-10 md:ml-0">
+        <button className="p-1 md:mr-12 bg-green-500 md:ml-0 md:p-2 rounded-md text-white">
           <Link href="/addItem">ADD NEW ITEM</Link>
         </button>
       </div>

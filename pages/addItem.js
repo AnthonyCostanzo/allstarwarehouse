@@ -10,15 +10,17 @@ const AddItem = () => {
 
   const onFormSubmit = async (event) => {
     event.preventDefault();
-    const item = { item_name: name, item_price: price, quantity };
+    const product = { name, price, quantity };
     try {
-      const res = await fetch("http://localhost:8080/items/addItem", {
+      const res = await fetch("http://localhost:8080/products/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(item),
+        body: JSON.stringify(product),
       });
+      const data = await res.json();
+      console.log(data);
       router.push("/");
     } catch (error) {
       alert(error);
@@ -49,7 +51,7 @@ const AddItem = () => {
             className="border-2 focus:scale-105 w-full transition-all duration-75 border-black p-1 rounded-sm"
             type="text"
             id="name"
-            placeHolder="item name"
+            placeholder="item name"
           />
         </div>
         <div>
@@ -59,7 +61,7 @@ const AddItem = () => {
             className="border-2 focus:scale-105 w-full  transition-all duration-75 border-black p-1 rounded-sm"
             type="text"
             id="price"
-            placeHolder="item price"
+            placeholder="item price"
           />
         </div>
         <div>
@@ -70,7 +72,7 @@ const AddItem = () => {
             type="number"
             id="price"
             min="1"
-            placeHolder="item quantity"
+            placeholder="item quantity"
           />
         </div>
         <button
