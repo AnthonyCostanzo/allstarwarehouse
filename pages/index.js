@@ -1,30 +1,54 @@
-import Head from "next/head";
-import Image from "next/image";
-import UserList from "../components/UserList";
-import InventoryList from "../components/InventoryList";
 import { useEffect, useState } from "react";
-export default function Home() {
-  return (
-    <>
-      <div className="text-center md:w-10/12 m-auto pb-20 ">
-        <div className="group w-fit m-auto">
-          <h1 className="text-2xl text-center mt-10 group-hover:animate-bounce  ">
-            THE WAREHOUSE MANAGER
-          </h1>
-        </div>
+import { AiFillStar } from "react-icons/ai";
+import Layout from "../components/Layout";
+import ProductGrid from "../components/product/ProductGrid";
+import SearchBox from "../components/Searchbox";
+import db from "../utils/db";
+import Product from "../models/Product";
 
-        <div className="mt-10">
-          <div className="bg-gradient-to-br rounded-b-md from-sky-300 to-sky-100 p-3 w-1/2 space-y-2 m-auto min-w-max">
-            <h3 className="text-xl">Welcome to the Admin Portal</h3>
-            <p>Here is where you can manage and view your inventory</p>
-          </div>
-          <div className="mt-10">
-            <h1 className="mb-5 font-semibold text-xl">ACTIVE USERS</h1>
-            {/* <UserList /> */}
-          </div>
-          <InventoryList />
-        </div>
+export default function Home({ products }) {
+  const [searchField, setSearchField] = useState("");
+
+  const [filteredProds, setFilteredProds] = useState(products);
+  const handleSearchChange = (e) => {
+    setSearchField(e.target.value);
+  };
+
+  useEffect(() => {
+    setFilteredProds(
+      products.filter((prod) =>
+        prod.name.toLowerCase().includes(searchField.toLowerCase().trim())
+      )
+    );
+  }, [searchField, searchField.length, products]);
+
+  return (
+    <Layout>
+      <div className="flex w-full justify-center relative">
+        <h1 className="text-2xl inline-block relative text-center mt-10 group-hover:animate-bounce  ">
+          All Star Warehouse
+          <span className="absolute top-1 ml-[.5px]">
+            <AiFillStar className="text-sky-500" size={20} />
+          </span>
+        </h1>
       </div>
-    </>
+      <div className="flex justify-center mt-3">
+        <SearchBox onSearchChange={handleSearchChange} />
+      </div>
+
+      <div className="w-8/12 sm:w-10/12 m-auto mt-10">
+        <h1 className="text-2xl font-semibold">Featured Products</h1>
+        <ProductGrid products={filteredProds} />
+      </div>
+    </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  await db.connect();
+  let products = await Product.find({}).lean();
+  await db.disconnect();
+  return {
+    props: { products: products.map((prod) => db.convertDocToObject(prod)) },
+  };
 }

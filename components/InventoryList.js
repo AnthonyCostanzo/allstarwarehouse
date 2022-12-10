@@ -5,36 +5,7 @@ const InventoryList = () => {
   const router = useRouter();
   const [inventory, setInventory] = useState([]);
 
-  useEffect(() => {
-    const loadInventory = async () => {
-      try {
-        const itemRes = await fetch("http://localhost:8080/products/all");
-        const itemData = await itemRes.json();
-        setInventory(itemData);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    loadInventory();
-  }, []);
-
-  const deleteItem = async (id) => {
-    try {
-      await fetch(`http://localhost:8080/products/delete/${id}`, {
-        method: "DELETE",
-      });
-      router.reload(window.location.pathname);
-    } catch (e) {
-      alert(e);
-    }
-  };
-
-  const updateItem = async (item) => {
-    router.push({
-      pathname: `/item/${item.id}`,
-      query: { item: JSON.stringify(item) },
-    });
-  };
+  // useEffect(() => {}, []);
 
   return (
     <div className="md:w-3/4 m-auto mt-10">
@@ -51,36 +22,33 @@ const InventoryList = () => {
           </tr>
         </thead>
         <tbody className="divide-y-2 divide-black">
-          {inventory.length
-            ? inventory.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>${item.price.toFixed(2)}</td>
-                  <td>{item.quantity}</td>
-                  <td>
-                    <button
-                      onClick={() => updateItem(item)}
-                      className="bg-orange-400 md:w-3/4 h-8 text-white w-full"
-                    >
-                      {"UPDATE"}
-                    </button>
-                  </td>
-                  <td className="">
-                    <button
-                      onClick={() => deleteItem(item.id)}
-                      className="bg-red-600 md:w-3/4 text-white w-full text-2xl "
-                    >
-                      X
-                    </button>
-                  </td>
-                </tr>
-              ))
-            : null}
+          <tr key={item.id}>
+            <td>{item.id}</td>
+            <td>{item.name}</td>
+            <td>${item.price.toFixed(2)}</td>
+            <td>{item.quantity}</td>
+            <td>
+              <button
+                onClick={() => updateItem(item)}
+                className="bg-orange-400 md:w-3/4 h-8 text-white w-full"
+              >
+                {"UPDATE"}
+              </button>
+            </td>
+            <td className="">
+              <button
+                onClick={() => deleteItem(item.id)}
+                className="bg-red-600 md:w-3/4 text-white w-full text-2xl "
+              >
+                X
+              </button>
+            </td>
+          </tr>
+          ))
         </tbody>
       </table>
       <div className="mt-4 text-left ml-10 md:ml-0">
-        <button className="p-1 md:mr-12 bg-green-500 md:ml-0 md:p-2 rounded-md text-white">
+        <button className="p-1 md:mr-12 bg-green-600 md:ml-0 md:p-2 rounded-md text-white">
           <Link href="/addItem">ADD NEW ITEM</Link>
         </button>
       </div>

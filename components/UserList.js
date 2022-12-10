@@ -6,16 +6,16 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const userRes = await fetch("http://localhost:8080/user/all");
-        const userData = await userRes.json();
-        setUsers(userData);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    loadUsers();
+    // const loadUsers = async () => {
+    //   try {
+    //     const userRes = await fetch("http://localhost:8080/user/all");
+    //     const userData = await userRes.json();
+    //     setUsers(userData);
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
+    // loadUsers();
   }, []);
 
   const router = useRouter();
