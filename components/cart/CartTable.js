@@ -1,7 +1,7 @@
 import Link from "next/Link";
 import Image from "next/image";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Store } from "../../utils/store";
 const CartTable = ({ cartItems }) => {
   const { dispatch } = useContext(Store);
@@ -11,7 +11,8 @@ const CartTable = ({ cartItems }) => {
       window.alert("Product is out of stock");
       return;
     }
-    quantity = quantity.replace(/^0+/, "");
+    quantity = +quantity.replace(/^0+/, "");
+
     dispatch({ type: "ADD_ITEM_TO_CART", payload: { ...item, quantity } });
   };
 

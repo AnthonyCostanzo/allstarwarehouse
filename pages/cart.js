@@ -6,12 +6,6 @@ import CartTable from "../components/cart/CartTable";
 import { Store } from "../utils/store";
 import dynamic from "next/dynamic";
 const Cart = () => {
-  //   const [hasWindow, setHasWindow] = useState(false);
-  //   useEffect(() => {
-  //     if (typeof window !== "undefined") {
-  //       setHasWindow(true);
-  //     }
-  //   }, []);
   const {
     state: {
       cart: { cartItems },
