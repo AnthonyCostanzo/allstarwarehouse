@@ -18,7 +18,7 @@ const ItemPage = ({ product: prod }) => {
       window.alert("Product is out of stock");
       return;
     }
-    if (data.inStock <= quantity) {
+    if (data.inStock < quantity) {
       window.alert("Product out of stock");
       return;
     }
