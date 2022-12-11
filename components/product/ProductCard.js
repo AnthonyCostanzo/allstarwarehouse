@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
-import Cookies from "js-cookie";
 import { Store } from "../../utils/store";
 import axios from "axios";
 
