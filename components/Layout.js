@@ -1,5 +1,7 @@
 import Head from "next/head";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Nav from "./Nav";
 const Layout = ({ title, description, children }) => {
   title = title != undefined && title.length ? title : "All Star Management";
   description =
@@ -13,7 +15,13 @@ const Layout = ({ title, description, children }) => {
         <meta name="viewport" content="width=device-width" />
         <title>{title}</title>
       </Head>
-      <>{children}</>
+
+      <ToastContainer position="bottom-center" limit={1} />
+
+      <>
+        <Nav />
+        {children}
+      </>
     </>
   );
 };

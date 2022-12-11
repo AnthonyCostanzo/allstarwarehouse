@@ -8,21 +8,8 @@ import Cookies from "js-cookie";
 
 const Register = () => {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const { redirect } = router.query;
-  const {
-    state: { userInfo },
-    dispatch,
-  } = useContext(Store);
 
-  useEffect(() => {
-    if (userInfo) {
-      router.push("/");
-    }
-  }, []);
+  const { redirect } = router.query;
 
   const onNameChange = (e) => {
     setName(e.target.value);

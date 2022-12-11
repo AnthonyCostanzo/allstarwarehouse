@@ -4,44 +4,41 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../utils/store";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { signIn, useSession } from "next-auth/react";
+import { getError } from "../utils/error";
 
 const Login = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { redirect } = router.query;
   const {
-    state: { userInfo },
-    dispatch,
-  } = useContext(Store);
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+
+  const { data: session } = useSession();
 
   useEffect(() => {
-    if (userInfo) {
-      router.push("/");
+    if (session?.user) {
+      router.push(redirect || "/");
     }
-  }, []);
+  }, [router, session, redirect]);
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const onFormSubmit = async (e) => {
-    e.preventDefault();
+  const submitHandler = async ({ email, password }) => {
     try {
-      const { data } = await axios.post("/api/users/login", {
+      const result = await signIn("credentials", {
+        redirect: redirect || "/",
         email,
         password,
       });
-      dispatch({ type: "USER_LOGIN", paylaod: data });
-      Cookies.set("userInfo", JSON.stringify(data));
-      router.push(redirect || "/");
+      if (result.error) {
+        toast.error(result.error);
+      }
     } catch (err) {
-      alert(err.response.data ? err.response.data.message : err.message);
+      toast.error(getError(err));
     }
   };
 
@@ -50,17 +47,39 @@ const Login = () => {
       <div className="w-5/12 m-auto">
         <h1 className="text-2xl font-bold">Login</h1>
 
-        <form className="grid gap-4 mt-5" onSubmit={onFormSubmit}>
+        <form
+          className="grid gap-4 mt-5"
+          onSubmit={handleSubmit(submitHandler)}
+        >
           <input
+            autoFocus
+            {...register("email", {
+              required: "Please enter email",
+              pattern: {
+                value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i,
+                message: "Enter a valid email",
+              },
+            })}
             className="p-3 rounded-sm  border-[1.2px] border-black"
             placeholder="Email"
-            onChange={onEmailChange}
           />
+          {errors.email && (
+            <div className="text-red-500">{errors.email.message}</div>
+          )}
+
           <input
+            autoFocus
+            {...register("password", {
+              required: "Please enter a password",
+              minLength: { value: 5, message: "Enter at least 5 characters" },
+            })}
             className="p-3 rounded-sm border-[1.2px] border-black"
             placeholder="Password"
-            onChange={onPasswordChange}
           />
+          {errors.password && (
+            <div className="text-red-500">{errors.password.message}</div>
+          )}
+
           <button
             type="submit"
             className="bg-green-500 p-2 text-white hover:text-yellow-300 "

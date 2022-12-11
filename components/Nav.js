@@ -3,13 +3,17 @@ import Link from "next/Link";
 import { useContext, useEffect, useState } from "react";
 import { AiOutlineShoppingCart, AiFillStar } from "react-icons/ai";
 import { Store } from "../utils/store";
+import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import { Menu } from "@headlessui/react";
+import DropDownLink from "./DropDownLink";
 
 const Nav = () => {
   const [isCartOpen, setCartIsOpen] = useState(false);
   const router = useRouter();
+  const { status, data: session } = useSession();
   const [hasWindow, setHasWindow] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const toggleProfileMenuOpen = () => {
@@ -19,7 +23,6 @@ const Nav = () => {
   const {
     state: {
       cart: { cartItems },
-      userInfo,
     },
     dispatch,
   } = useContext(Store);
@@ -39,11 +42,10 @@ const Nav = () => {
   const checkoutHandler = () => {
     router.push("/cart");
   };
-  const handleLogout = () => {
-    dispatch({ type: "USER_LOGOUT" });
-    Cookies.remove("userInfo");
+  const logoutClickHandler = () => {
     Cookies.remove("cartItems");
-    router.push("/");
+    dispatch({ type: "CART_RESET" });
+    signOut({ callbackUrl: "/login" });
   };
 
   return (
@@ -67,19 +69,34 @@ const Nav = () => {
           <ul className="flex justify-around gap-3 pr-10">
             {/* <li className={li_styles}>ADD NEW ITEM</li> */}
             <li className={li_styles}></li>
-            <li className={li_styles}>
-              {userInfo ? (
-                <button onClick={toggleProfileMenuOpen}>{userInfo.name}</button>
+            <li>
+              {status === "loading" ? (
+                "Loading"
+              ) : session?.user ? (
+                <Menu as="div" className="relative inline-block">
+                  <Menu.Button className={"text-blue-500"}>
+                    {session.user.name}
+                  </Menu.Button>
+                  <Menu.Items className="absolute grid right-0 origin-top-right shadow-lg w-56">
+                    <Menu.Item>
+                      <DropDownLink href="/profile">Profile</DropDownLink>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <DropDownLink href="/order-history">
+                        Order History
+                      </DropDownLink>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="#" onClick={logoutClickHandler}>
+                        Logout
+                      </a>
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
               ) : (
-                <Link href="/login">LOGIN</Link>
+                <Link href="/login">Login</Link>
               )}
             </li>
-            {userInfo && (
-              <li>
-                <button onClick={handleLogout}>logout</button>
-              </li>
-            )}
-
             <div className="relative">
               <li className={`${li_styles} relative`}>
                 <button onClick={toggleCart}>

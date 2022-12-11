@@ -48,7 +48,10 @@ const Cart = () => {
                   0
                 )}
               </p>
-              <button className="text-white font-bold text-md bg-sky-300 w-full h-8 mt-2">
+              <button
+                onClick={() => router.push("/shipping")}
+                className="text-white font-bold text-md bg-sky-300 w-full h-8 mt-2"
+              >
                 CHECK OUT
               </button>
             </div>
