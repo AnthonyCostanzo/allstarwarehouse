@@ -1,5 +1,5 @@
 const li_styles = "cursor-pointer hover:font-bold min-w-max";
-import Link from "next/Link";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AiOutlineShoppingCart, AiFillStar } from "react-icons/ai";
 import { Store } from "../utils/store";
