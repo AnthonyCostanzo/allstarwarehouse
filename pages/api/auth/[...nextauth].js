@@ -1,8 +1,9 @@
-import NextAuth from "next-auth/next";
+import bcryptjs from "bcryptjs";
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import User from "../../../models/User";
 import db from "../../../utils/db";
-import bcrypt from "bcryptjs";
-import CredentialsProvider from "next-auth/providers/credentials";
+
 export default NextAuth({
   session: {
     strategy: "jwt",
@@ -27,11 +28,12 @@ export default NextAuth({
           email: credentials.email,
         });
         await db.disconnect();
-        if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        if (user && bcryptjs.compareSync(credentials.password, user.password)) {
           return {
             _id: user._id,
             name: user.name,
             email: user.email,
+            image: "f",
             isAdmin: user.isAdmin,
           };
         }
