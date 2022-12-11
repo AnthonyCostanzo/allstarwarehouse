@@ -1,10 +1,26 @@
 import Link from "next/Link";
 import Layout from "../components/Layout";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Store } from "../utils/store";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+
 const Login = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { redirect } = router.query;
+  const {
+    state: { userInfo },
+    dispatch,
+  } = useContext(Store);
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push("/");
+    }
+  }, []);
 
   const onEmailChange = (e) => {
     setEmail(e.target.value);
@@ -21,7 +37,9 @@ const Login = () => {
         email,
         password,
       });
-      console.log(data);
+      dispatch({ type: "USER_LOGIN", paylaod: data });
+      Cookies.set("userInfo", JSON.stringify(data));
+      router.push(redirect || "/");
     } catch (err) {
       alert(err.response.data ? err.response.data.message : err.message);
     }

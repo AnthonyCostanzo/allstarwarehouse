@@ -1,21 +1,25 @@
 const li_styles = "cursor-pointer hover:font-bold min-w-max";
-import { AiOutlineHome } from "react-icons/ai";
 import Link from "next/Link";
 import { useContext, useEffect, useState } from "react";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineShoppingCart, AiFillStar } from "react-icons/ai";
 import { Store } from "../utils/store";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const Nav = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCartOpen, setCartIsOpen] = useState(false);
   const router = useRouter();
   const [hasWindow, setHasWindow] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const toggleProfileMenuOpen = () => {
+    setProfileMenuOpen((prevState) => !prevState);
+  };
 
   const {
     state: {
       cart: { cartItems },
+      userInfo,
     },
     dispatch,
   } = useContext(Store);
@@ -35,6 +39,12 @@ const Nav = () => {
   const checkoutHandler = () => {
     router.push("/cart");
   };
+  const handleLogout = () => {
+    dispatch({ type: "USER_LOGOUT" });
+    Cookies.remove("userInfo");
+    Cookies.remove("cartItems");
+    router.push("/");
+  };
 
   return (
     hasWindow && (
@@ -45,15 +55,31 @@ const Nav = () => {
         size={24}
       />
     </Link> */}
+        <Link href="/" passHref>
+          <h1 className="text-Xxl hover:font-bold inline-block text-center mt-4 ml-3 absolute  ">
+            All Star Warehouse
+            <span className="absolute top-1 ml-[.5px]">
+              <AiFillStar className="text-sky-500" size={20} />
+            </span>
+          </h1>
+        </Link>
         <div className="flex justify-end pt-5 w-11/12 ">
           <ul className="flex justify-around gap-3 pr-10">
             {/* <li className={li_styles}>ADD NEW ITEM</li> */}
+            <li className={li_styles}></li>
             <li className={li_styles}>
-              <Link href="/order">ORDERS</Link>
+              {userInfo ? (
+                <button onClick={toggleProfileMenuOpen}>{userInfo.name}</button>
+              ) : (
+                <Link href="/login">LOGIN</Link>
+              )}
             </li>
-            <li className={li_styles}>
-              {!isAuthenticated ? <Link href="/login">LOGIN</Link> : null}
-            </li>
+            {userInfo && (
+              <li>
+                <button onClick={handleLogout}>logout</button>
+              </li>
+            )}
+
             <div className="relative">
               <li className={`${li_styles} relative`}>
                 <button onClick={toggleCart}>

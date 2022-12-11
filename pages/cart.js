@@ -5,12 +5,19 @@ import Layout from "../components/Layout";
 import CartTable from "../components/cart/CartTable";
 import { Store } from "../utils/store";
 import dynamic from "next/dynamic";
+import Router, { useRouter } from "next/router";
 const Cart = () => {
   const {
     state: {
       cart: { cartItems },
     },
   } = useContext(Store);
+
+  const router = useRouter();
+
+  const handleCheckout = () => {
+    router.push("/shipping");
+  };
 
   return (
     <Layout>

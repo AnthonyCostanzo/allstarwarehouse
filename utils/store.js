@@ -4,6 +4,9 @@ import cart from "../pages/cart";
 export const Store = createContext();
 
 const initialState = {
+  userInfo: Cookies.get("userInfo")
+    ? JSON.parse(Cookies.get("userInfo"))
+    : null,
   cart: {
     cartItems: Cookies.get("cartItems")
       ? JSON.parse(Cookies.get("cartItems"))
@@ -38,6 +41,12 @@ const storeReducer = (state, action) => {
         return { ...state, cart: { ...cart, cartItems: updatedCartItems } };
       }
       return { ...state };
+    case "USER_LOGIN": {
+      return { ...state, userInfo: action.payload };
+    }
+    case "USER_LOGOUT": {
+      return { ...state, userInfo: null, cart: { cartItems: [] } };
+    }
     default:
       return { ...state };
   }

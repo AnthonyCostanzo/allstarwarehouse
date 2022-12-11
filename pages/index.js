@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AiFillStar } from "react-icons/ai";
+import { FcSearch } from "react-icons/fc";
 import Layout from "../components/Layout";
 import ProductGrid from "../components/product/ProductGrid";
 import SearchBox from "../components/Searchbox";
@@ -24,16 +24,16 @@ export default function Home({ products }) {
 
   return (
     <Layout>
-      <div className="flex w-full justify-center relative">
-        <h1 className="text-2xl inline-block relative text-center mt-10 group-hover:animate-bounce  ">
-          All Star Warehouse
-          <span className="absolute top-1 ml-[.5px]">
-            <AiFillStar className="text-sky-500" size={20} />
+      <div className="mt-10 flex flex-col items-center">
+        <p className="text-3xl max-w-sm text-center relative">
+          Search through our large inventory of products
+          <span className="absolute bottom-2">
+            <FcSearch size={28} />
           </span>
-        </h1>
-      </div>
-      <div className="flex justify-center mt-3">
-        <SearchBox onSearchChange={handleSearchChange} />
+        </p>
+        <div className="flex justify-center mt-3">
+          <SearchBox onSearchChange={handleSearchChange} />
+        </div>
       </div>
 
       <div className="w-8/12 sm:w-10/12 m-auto mt-10">
