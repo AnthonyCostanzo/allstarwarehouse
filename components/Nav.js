@@ -77,7 +77,7 @@ const Nav = () => {
                   <Menu.Button className={"text-blue-500"}>
                     {session.user.name}
                   </Menu.Button>
-                  <Menu.Items className="absolute grid bg-opacity-80 right-0 bg-white p-1 rounded-md origin-top-right shadow-lg w-56">
+                  <Menu.Items className="absolute z-10 grid right-0 bg-white p-1 rounded-md origin-top-right shadow-lg w-56">
                     <Menu.Item>
                       <DropDownLink href="/profile">Profile</DropDownLink>
                     </Menu.Item>

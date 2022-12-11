@@ -8,7 +8,7 @@ handler.get(async (req, res) => {
   await db.connect();
   await Product.deleteMany();
   await Product.insertMany(data.products);
-  return res.send({ message: "successfully seeded db" });
+  res.send({ message: "successfully seeded db" });
   db.close();
 });
 
