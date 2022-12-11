@@ -50,7 +50,7 @@ const Nav = () => {
 
   return (
     hasWindow && (
-      <>
+      <nav className="shadow-lg">
         {/* <Link href="/" passHref>
       <AiOutlineHome
         className="absolute left-5 top-4 cursor-pointer"
@@ -58,7 +58,7 @@ const Nav = () => {
       />
     </Link> */}
         <Link href="/" passHref>
-          <h1 className="text-Xxl hover:font-bold inline-block text-center mt-4 ml-3 absolute  ">
+          <h1 className="text-Xxl hover:font-bold inline-block text-center mt-4 ml-16 absolute  ">
             All Star Warehouse
             <span className="absolute top-1 ml-[.5px]">
               <AiFillStar className="text-sky-500" size={20} />
@@ -66,18 +66,18 @@ const Nav = () => {
           </h1>
         </Link>
         <div className="flex justify-end pt-5 w-11/12 ">
-          <ul className="flex justify-around gap-3 pr-10">
+          <ul className="flex justify-around gap-5 pr-10">
             {/* <li className={li_styles}>ADD NEW ITEM</li> */}
             <li className={li_styles}></li>
             <li>
               {status === "loading" ? (
                 "Loading"
               ) : session?.user ? (
-                <Menu as="div" className="relative inline-block">
+                <Menu as="div" className="relative inline-block ">
                   <Menu.Button className={"text-blue-500"}>
                     {session.user.name}
                   </Menu.Button>
-                  <Menu.Items className="absolute grid right-0 origin-top-right shadow-lg w-56">
+                  <Menu.Items className="absolute grid bg-opacity-80 right-0 bg-white p-1 rounded-md origin-top-right shadow-lg w-56">
                     <Menu.Item>
                       <DropDownLink href="/profile">Profile</DropDownLink>
                     </Menu.Item>
@@ -137,7 +137,7 @@ const Nav = () => {
             </div>
           </ul>
         </div>
-      </>
+      </nav>
     )
   );
 };

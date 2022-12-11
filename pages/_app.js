@@ -2,19 +2,22 @@ import "../styles/globals.css";
 import Nav from "../components/Nav";
 import { SessionProvider, useSession } from "next-auth/react";
 import { StoreProvider } from "../utils/store";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <StoreProvider>
-        {Component.auth ? (
-          <Auth>
+        <PayPalScriptProvider deferLoading={true}>
+          {Component.auth ? (
+            <Auth>
+              <Component {...pageProps} />
+            </Auth>
+          ) : (
             <Component {...pageProps} />
-          </Auth>
-        ) : (
-          <Component {...pageProps} />
-        )}
+          )}
+        </PayPalScriptProvider>
       </StoreProvider>
     </SessionProvider>
   );
@@ -25,7 +28,7 @@ function Auth({ children }) {
   const { status, data: session } = useSession({
     required: true,
     onUnauthenticated() {
-      router.push("/unathorized?message=login required");
+      router.push("/unauthorized?message=login required");
     },
   });
   if (status === "loading") {

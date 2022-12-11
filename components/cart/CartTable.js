@@ -37,7 +37,12 @@ const CartTable = ({ cartItems }) => {
           <tr key={item._id} className="">
             <td className="relative h-32">
               <Link href={`/item/${item.slug}`} passHref>
-                <Image fill src={item.image} alt={item.name} />
+                <Image
+                  className="rounded-md"
+                  fill
+                  src={item.image}
+                  alt={item.name}
+                />
               </Link>
             </td>
             <td>{item.name}</td>

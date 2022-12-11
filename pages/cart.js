@@ -21,7 +21,7 @@ const Cart = () => {
 
   return (
     <Layout>
-      <div className="p-2 md:w-10/12 m-auto md:p-0">
+      <div className="p-2 md:w-10/12 m-auto md:p-0 mt-10">
         <h1 className="text-xl font-bold">Shopping Cart</h1>
         {!cartItems.length > 0 ? (
           <h1>
@@ -50,7 +50,7 @@ const Cart = () => {
               </p>
               <button
                 onClick={() => router.push("/shipping")}
-                className="text-white font-bold text-md bg-sky-300 w-full h-8 mt-2"
+                className="text-white font-bold text-md bg-indigo-500 w-full h-8 mt-2"
               >
                 CHECK OUT
               </button>

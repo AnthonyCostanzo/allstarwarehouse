@@ -60,7 +60,7 @@ export default function ShippingScreen() {
         <div className="mb-4">
           <label htmlFor="fullName">Full Name</label>
           <input
-            className="w-full"
+            className="w-full p-2 rounded-md"
             id="fullName"
             autoFocus
             {...register("fullName", {
@@ -74,7 +74,7 @@ export default function ShippingScreen() {
         <div className="mb-4">
           <label htmlFor="address">Address</label>
           <input
-            className="w-full"
+            className="w-full p-2 rounded-md"
             id="address"
             {...register("address", {
               required: "Please enter address",
@@ -88,7 +88,7 @@ export default function ShippingScreen() {
         <div className="mb-4">
           <label htmlFor="city">City</label>
           <input
-            className="w-full"
+            className="w-full p-2 rounded-md"
             id="city"
             {...register("city", {
               required: "Please enter city",
@@ -101,7 +101,7 @@ export default function ShippingScreen() {
         <div className="mb-4">
           <label htmlFor="postalCode">Postal Code</label>
           <input
-            className="w-full"
+            className="w-full p-2 rounded-md"
             id="postalCode"
             {...register("postalCode", {
               required: "Please enter postal code",
@@ -114,7 +114,7 @@ export default function ShippingScreen() {
         <div className="mb-4">
           <label htmlFor="country">Country</label>
           <input
-            className="w-full"
+            className="w-full p-2 rounded-md"
             id="country"
             {...register("country", {
               required: "Please enter country",
@@ -125,7 +125,9 @@ export default function ShippingScreen() {
           )}
         </div>
         <div className="mb-4 flex justify-between">
-          <button className="primary-button">Next</button>
+          <button className="bg-indigo-500 text-white h-8 w-20 hover:text-yellow-300">
+            Next
+          </button>
         </div>
       </form>
     </Layout>
