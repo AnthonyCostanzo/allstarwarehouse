@@ -6,10 +6,12 @@ import { Store } from "../utils/store";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
-const Login = () => {
+const Register = () => {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const { redirect } = router.query;
   const {
     state: { userInfo },
@@ -22,6 +24,10 @@ const Login = () => {
     }
   }, []);
 
+  const onNameChange = (e) => {
+    setName(e.target.value);
+  };
+
   const onEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -30,27 +36,41 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const onConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
   const onFormSubmit = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Password Mismatch");
+      return;
+    }
     try {
-      const { data } = await axios.post("/api/users/login", {
+      const { data } = await axios.post("/api/users/register", {
+        name,
         email,
         password,
       });
-      dispatch({ type: "USER_LOGIN", paylaod: data });
+      dispatch({ type: "USER_LOGIN", payload: data });
       Cookies.set("userInfo", JSON.stringify(data));
-      router.push(redirect || "/");
+      router.push("/");
     } catch (err) {
-      alert(err.response.data ? err.response.data.message : err.message);
+      alert(err);
     }
   };
 
   return (
     <Layout>
       <div className="w-5/12 m-auto">
-        <h1 className="text-2xl font-bold">Login</h1>
+        <h1 className="text-2xl font-bold">Register</h1>
 
         <form className="grid gap-4 mt-5" onSubmit={onFormSubmit}>
+          <input
+            className="p-3 rounded-sm  border-[1.2px] border-black"
+            placeholder="Name"
+            onChange={onNameChange}
+          />
           <input
             className="p-3 rounded-sm  border-[1.2px] border-black"
             placeholder="Email"
@@ -61,20 +81,26 @@ const Login = () => {
             placeholder="Password"
             onChange={onPasswordChange}
           />
+          <input
+            className="p-3 rounded-sm border-[1.2px] border-black"
+            placeholder="Confirm Password"
+            onChange={onConfirmPasswordChange}
+          />
+
           <button
             type="submit"
             className="bg-green-500 p-2 text-white hover:text-yellow-300 "
           >
-            LOGIN
+            Register
           </button>
         </form>
         <p className="mt-2">
-          {`Don't have an account?`}
+          {`Already have an account?`}
           <Link
-            href={`/register?redirect=${redirect || "/"}`}
+            href={`/login?redirect=${redirect || "/"}`}
             className="text-green-600 hover:font-bold"
           >
-            Register
+            Login
           </Link>
         </p>
       </div>
@@ -82,4 +108,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
