@@ -14,6 +14,6 @@ const handler = async (req, res) => {
     user: user._id,
   });
   const order = await newOrder.save();
-  res.status(201).send(order);
+  return res.status(201).send(order);
 };
 export default handler;

@@ -9,7 +9,7 @@ handler.get(async (req, res) => {
   await User.deleteMany();
   await User.insertMany(data.users);
   await db.disconnect();
-  res.send({ message: "Seeded db successfully" });
+  return res.send({ message: "Seeded db successfully" });
 });
 
 export default handler;

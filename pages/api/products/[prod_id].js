@@ -8,7 +8,7 @@ handler.get(async (req, res) => {
   await db.connect();
   let product = await Product.findById(req.query.prod_id);
   await db.disconnect();
-  res.send(product);
+  return res.send(product);
 });
 
 export default handler;
