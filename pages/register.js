@@ -45,6 +45,7 @@ export default function LoginScreen() {
     } catch (err) {
       toast.error(getError(err));
     }
+    router.reload();
   };
   return (
     <Layout title="Create Account">
@@ -57,7 +58,7 @@ export default function LoginScreen() {
           <label htmlFor="name">Name</label>
           <input
             type="text"
-            className="w-full p-1"
+            className="w-full p-1 border-[1.2px] border-black"
             id="name"
             autoFocus
             {...register("name", {
@@ -80,7 +81,7 @@ export default function LoginScreen() {
                 message: "Please enter valid email",
               },
             })}
-            className="w-full p-1"
+            className="w-full p-1 border-[1.2px] border-black"
             id="email"
           ></input>
           {errors.email && (
@@ -95,7 +96,7 @@ export default function LoginScreen() {
               required: "Please enter password",
               minLength: { value: 6, message: "password is more than 5 chars" },
             })}
-            className="w-full p-1"
+            className="w-full p-1 border-[1.2px] border-black"
             id="password"
             autoFocus
           ></input>
@@ -106,7 +107,7 @@ export default function LoginScreen() {
         <div className="mb-4">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
-            className="w-full"
+            className="w-full border-[1.2px] border-black p-1"
             type="password"
             id="confirmPassword"
             {...register("confirmPassword", {
@@ -138,7 +139,7 @@ export default function LoginScreen() {
           Already have an account? &nbsp;
           <Link
             href={`/login?redirect=${redirect || "/"}`}
-            className="text-indigo-600"
+            className="text-indigo-600 hover:font-bold"
           >
             Login
           </Link>

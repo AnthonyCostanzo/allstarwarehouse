@@ -91,18 +91,18 @@ function OrderScreen() {
         dispatch({ type: "DELIVER_RESET" });
       }
     } else {
-      // const loadPaypalScript = async () => {
-      //   const { data: clientId } = await axios.get("/api/keys/paypal");
-      //   paypalDispatch({
-      //     type: "resetOptions",
-      //     value: {
-      //       "client-id": clientId,
-      //       currency: "USD",
-      //     },
-      //   });
-      //   paypalDispatch({ type: "setLoadingStatus", value: "pending" });
-      // };
-      // loadPaypalScript();
+      const loadPaypalScript = async () => {
+        const { data: clientId } = await axios.get("/api/keys/paypal");
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            "client-id": clientId,
+            currency: "USD",
+          },
+        });
+        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+      };
+      loadPaypalScript();
     }
   }, [order, orderId, paypalDispatch, successDeliver, successPay]);
   const {
@@ -133,25 +133,25 @@ function OrderScreen() {
       });
   }
 
-  // function onApprove(data, actions) {
-  //   return actions.order.capture().then(async function (details) {
-  //     try {
-  //       dispatch({ type: "PAY_REQUEST" });
-  //       const { data } = await axios.put(
-  //         `/api/orders/${order._id}/pay`,
-  //         details
-  //       );
-  //       dispatch({ type: "PAY_SUCCESS", payload: data });
-  //       toast.success("Order is paid successgully");
-  //     } catch (err) {
-  //       dispatch({ type: "PAY_FAIL", payload: getError(err) });
-  //       toast.error(getError(err));
-  //     }
-  //   });
-  // }
-  // function onError(err) {
-  //   toast.error(getError(err));
-  // }
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async function (details) {
+      try {
+        dispatch({ type: "PAY_REQUEST" });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          details
+        );
+        dispatch({ type: "PAY_SUCCESS", payload: data });
+        toast.success("Order is paid successfully");
+      } catch (err) {
+        dispatch({ type: "PAY_FAIL", payload: getError(err) });
+        toast.error(getError(err));
+      }
+    });
+  }
+  function onError(err) {
+    toast.error(getError(err));
+  }
 
   // async function deliverOrderHandler() {
   //   try {
@@ -277,8 +277,8 @@ function OrderScreen() {
                         <div className="w-full">
                           <PayPalButtons
                             createOrder={createOrder}
-                            // onApprove={onApprove}
-                            // onError={onError}
+                            onApprove={onApprove}
+                            onError={onError}
                           ></PayPalButtons>
                         </div>
                       )}

@@ -82,7 +82,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="bg-green-500 p-2 text-white hover:text-yellow-300 "
+            className="bg-indigo-500 p-2 text-white hover:text-yellow-300 "
           >
             LOGIN
           </button>
@@ -91,7 +91,7 @@ const Login = () => {
           {`Don't have an account?`}
           <Link
             href={`/register?redirect=${redirect || "/"}`}
-            className="text-green-600 hover:font-bold"
+            className="text-indigo-600 hover:font-bold"
           >
             Register
           </Link>
