@@ -1,4 +1,31 @@
+import bcrypt from "bcryptjs";
 export const data = {
+  users: [
+    {
+      name: "mike",
+      email: "mike@gmail.com",
+      password: bcrypt.hashSync("123"),
+      isAdmin: false,
+    },
+    {
+      name: "anthony",
+      email: "anthony@gmail.com",
+      password: bcrypt.hashSync("123"),
+      isAdmin: true,
+    },
+    {
+      name: "joe",
+      email: "joe@gmail.com",
+      password: bcrypt.hashSync("123"),
+      isAdmin: false,
+    },
+    {
+      name: "sally",
+      email: "sally@gmail.com",
+      password: bcrypt.hashSync("123"),
+      isAdmin: false,
+    },
+  ],
   products: [
     {
       name: "Shelf set",

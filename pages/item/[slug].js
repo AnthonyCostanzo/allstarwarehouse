@@ -13,11 +13,6 @@ const ItemPage = ({ product: prod }) => {
     );
     const quantity = existItem ? +existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${item._id}`);
-
-    if (!data.inStock >= 1) {
-      window.alert("Product is out of stock");
-      return;
-    }
     if (data.inStock < quantity) {
       window.alert("Product out of stock");
       return;

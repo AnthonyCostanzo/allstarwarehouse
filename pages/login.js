@@ -1,57 +1,63 @@
-const textInputStyle =
-  "pl-2 py-1 rounded-sm  border-[1px] border-sky-500 focus:scale-105";
-
+import Link from "next/Link";
+import Layout from "../components/Layout";
+import axios from "axios";
+import { useState } from "react";
 const Login = () => {
-  const onNameChange = (e) => {};
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onPasswordChange = (e) => {};
+  const onEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
-  const onFormSubmit = () => {
-    event.preventDefault();
-    localStorage.setItem("user", JSON.stringify({ username }));
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const onFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/users/login", {
+        email,
+        password,
+      });
+      console.log(data);
+    } catch (err) {
+      alert(err.response.data ? err.response.data.message : err.message);
+    }
   };
 
   return (
-    <>
-      <div className="m-auto rounded-md mt-20 bg-gradient-to-br from-gray-100 to-gray-300 shadow-md shadow-gray-600 w-96 p-10  ">
-        <h1 className="text-center text-2xl font-semibold text-sky-500">
-          {" "}
-          LOGIN{" "}
-        </h1>
-        <div className="flex justify-center mt-5 ">
-          <form onSubmit={onFormSubmit} className="rounded-md grid gap-4 ">
-            <div>
-              {/* <label htmlFor="email" /> */}
-              <input
-                onChange={onNameChange}
-                required
-                className={`${textInputStyle}`}
-                type="text"
-                id="email"
-                placeholder="email"
-              />
-            </div>
-            <div>
-              {/* <label htmlFor="password"></label> */}
-              <input
-                onChange={onPasswordChange}
-                required
-                className={textInputStyle}
-                type="text"
-                id="password"
-                placeholder="password"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-sky-800 shadow-slate-800 shadow-md text-white h-8"
-            >
-              LOGIN
-            </button>
-          </form>
-        </div>
+    <Layout>
+      <div className="w-5/12 m-auto">
+        <h1 className="text-2xl font-bold">Login</h1>
+
+        <form className="grid gap-4 mt-5" onSubmit={onFormSubmit}>
+          <input
+            className="p-3 rounded-sm  border-[1.2px] border-black"
+            placeholder="Email"
+            onChange={onEmailChange}
+          />
+          <input
+            className="p-3 rounded-sm border-[1.2px] border-black"
+            placeholder="Password"
+            onChange={onPasswordChange}
+          />
+          <button
+            type="submit"
+            className="bg-green-500 p-2 text-white hover:text-yellow-300 "
+          >
+            LOGIN
+          </button>
+        </form>
+        <p className="mt-2">
+          {`Don't have an account?`}
+          <Link href="/register" className="text-green-600 hover:font-bold">
+            Register
+          </Link>
+        </p>
       </div>
-    </>
+    </Layout>
   );
 };
 
