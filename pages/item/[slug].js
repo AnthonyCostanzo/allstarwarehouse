@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Store } from "../../utils/store";
 import Image from "next/image";
 import db from "../../utils/db";
-import Link from "next/Link";
+import Link from "next/link";
 import Layout from "../../components/Layout";
 import Product from "../../models/Product";
 import axios from "axios";

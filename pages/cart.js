@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/Link";
+import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import CartTable from "../components/cart/CartTable";
