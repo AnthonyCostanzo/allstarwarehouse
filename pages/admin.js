@@ -3,11 +3,19 @@ import AdminComp from "../components/AdminComp";
 import User from "../models/User";
 import Product from "../models/Product";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import Image from "next/image";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import db from "../utils/db";
 const AdminPage = ({ users, products }) => {
   const router = useRouter();
+  const { status, data: session } = useSession();
+  useEffect(() => {
+    if (!session.user || session.user.isAdmin !== true) {
+      router.push("/");
+    }
+  }, []);
   const handleDelete = async (id) => {
     await axios.delete(`/api/admin/products/delete/${id}`);
     router.reload();
