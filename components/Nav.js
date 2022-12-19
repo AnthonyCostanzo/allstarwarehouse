@@ -19,6 +19,7 @@ const Nav = () => {
   const toggleProfileMenuOpen = () => {
     setProfileMenuOpen((prevState) => !prevState);
   };
+  console.log(session);
 
   const {
     state: {
@@ -58,14 +59,14 @@ const Nav = () => {
       />
     </Link> */}
         <Link href="/" passHref>
-          <h1 className="text-Xxl hover:font-bold inline-block text-center mt-4 ml-16 absolute  ">
+          <h1 className="text-Xxl hover:font-bold inline-block text-center mt-4 ml-5 md:ml-16 absolute  ">
             All Star Warehouse
             <span className="absolute top-1 ml-[.5px]">
               <AiFillStar className="text-sky-500" size={20} />
             </span>
           </h1>
         </Link>
-        <div className="flex justify-end pt-5 w-11/12 ">
+        <nav className="flex justify-end pt-5 md:w-11/12 ">
           <ul className="flex justify-around gap-5 pr-10">
             {/* <li className={li_styles}>ADD NEW ITEM</li> */}
             <li className={li_styles}></li>
@@ -81,6 +82,11 @@ const Nav = () => {
                     <Menu.Item>
                       <DropDownLink href="/profile">Profile</DropDownLink>
                     </Menu.Item>
+                    {session.user.isAdmin && (
+                      <Menu.Item>
+                        <DropDownLink href="/admin">Admin</DropDownLink>
+                      </Menu.Item>
+                    )}
                     <Menu.Item>
                       <DropDownLink href="/order-history">
                         Order History
@@ -136,7 +142,7 @@ const Nav = () => {
               )}
             </div>
           </ul>
-        </div>
+        </nav>
       </nav>
     )
   );

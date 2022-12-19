@@ -24,21 +24,23 @@ export default function Home({ products }) {
 
   return (
     <Layout>
-      <div className="mt-10 flex flex-col items-center">
-        <p className="text-3xl max-w-sm text-center relative">
-          Search through our large inventory of products
-          <span className="absolute bottom-2">
-            <FcSearch size={28} />
-          </span>
-        </p>
-        <div className="flex justify-center mt-3">
-          <SearchBox onSearchChange={handleSearchChange} />
+      <div className="pb-10">
+        <div className="mt-10 flex flex-col items-center">
+          <p className="text-3xl max-w-sm text-center relative">
+            Search through our large inventory of products
+            <span className="absolute bottom-2">
+              <FcSearch size={28} />
+            </span>
+          </p>
+          <div className="flex justify-center mt-3">
+            <SearchBox onSearchChange={handleSearchChange} />
+          </div>
         </div>
-      </div>
 
-      <div className="w-8/12 sm:w-10/12 m-auto mt-10">
-        <h1 className="text-2xl font-semibold">Featured Products</h1>
-        <ProductGrid products={filteredProds} />
+        <div className="w-8/12 sm:w-10/12 m-auto mt-10">
+          <h1 className="text-2xl font-semibold">Featured Products</h1>
+          <ProductGrid products={filteredProds} />
+        </div>
       </div>
     </Layout>
   );
